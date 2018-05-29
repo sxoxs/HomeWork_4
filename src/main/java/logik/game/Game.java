@@ -96,7 +96,7 @@ public class Game {
                 System.out.println(Arrays.toString(gameMap.getMap()[j]));
             }
 
-            if (isWin(gameMap)) {
+            if (isWin(gameMap, coordinatStep[0], coordinatStep[1])) {
                 return lastStep;
             }
         }
@@ -155,7 +155,7 @@ public class Game {
             for (int j = 0; j < gMap.getSize(); j++) {
                 if (gMap.getEMPTY_MARK() == gMap.getMap()[i][j]) {
                     gMap.setMarkCoordinates(mark, i, j);
-                    if (isWin(gMap)) {
+                    if (isWin(gMap, i, j)) {
                         coord[0] = i;
                         coord[1] = j;
                         return coord;
@@ -174,19 +174,15 @@ public class Game {
     }
 
 
-    private boolean isWin(GameMap gameMap) {
-        for (int i = 0; i < gameMap.getSize(); i++) {
-            for (int j = 0; j < gameMap.getSize(); j++) {
-                if (gameMap.getMap()[i][j] != gameMap.getEMPTY_MARK()) {
-                    if ((isHorizontWin(gameMap.getMap(), i, j)) ||
-                    (isVerticalWin(gameMap.getMap(), i, j)) ||
-                    (isDiagonalWin(gameMap.getMap(), i, j))) {
-                        return true;
-                    }
-                }
-            }
+    private boolean isWin(GameMap gameMap, int x, int y) {
+        if ((isHorizontWin(gameMap.getMap(), x, y)) ||
+                (isVerticalWin(gameMap.getMap(), x, y)) ||
+                (isDiagonalWin(gameMap.getMap(), x, y))) {
+            return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
 
     private boolean isDiagonalWin(char[][] map, int x, int y) {
@@ -197,6 +193,9 @@ public class Game {
             if (markPoint == map[i][j]) {
                 countPointInLine++;
             }
+            else {
+                break;
+            }
             if (countPointInLine >= markForWin) {
                 return true;
             }
@@ -204,6 +203,9 @@ public class Game {
         for (int i = x+1, j = y+1; (i < map.length && j < map.length ) ; i++, j++) {
             if (markPoint == map[i][j]) {
                 countPointInLine++;
+            }
+            else {
+                break;
             }
             if (countPointInLine >= markForWin) {
                 return true;
@@ -215,6 +217,9 @@ public class Game {
             if (markPoint == map[i][j]) {
                 countPointInLine++;
             }
+            else {
+                break;
+            }
             if (countPointInLine >= markForWin) {
                 return true;
             }
@@ -222,6 +227,9 @@ public class Game {
         for (int i = x-1, j = y+1; (i >= 0 && j < map.length); i--, j++) {
             if (markPoint == map[i][j]) {
                 countPointInLine++;
+            }
+            else {
+                break;
             }
             if (countPointInLine >= markForWin) {
                 return true;
@@ -238,6 +246,9 @@ public class Game {
             if (markPoint == map[i][y]) {
                 countPointInLine++;
             }
+            else {
+                break;
+            }
             if (countPointInLine >= markForWin) {
                 return true;
             }
@@ -245,6 +256,9 @@ public class Game {
         for (int i = x+1; i < map.length ; i++) {
             if (markPoint == map[i][y]) {
                 countPointInLine++;
+            }
+            else {
+                break;
             }
             if (countPointInLine >= markForWin) {
                 return true;
@@ -261,6 +275,9 @@ public class Game {
             if (markPoint == map[x][i]) {
                 countPointInLine++;
             }
+            else {
+                break;
+            }
             if (countPointInLine >= markForWin) {
                 return true;
             }
@@ -268,6 +285,9 @@ public class Game {
         for (int i = y+1; i < map.length ; i++) {
             if (markPoint == map[x][i]) {
                 countPointInLine++;
+            }
+            else {
+                break;
             }
             if (countPointInLine >= markForWin) {
                 return true;
