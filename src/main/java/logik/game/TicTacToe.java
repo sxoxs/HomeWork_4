@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Game {
+public class TicTacToe {
     private final char X_MARK = 'X';
     private final char O_MARK = 'O';
     private char humanMark;
@@ -14,13 +14,13 @@ public class Game {
     public void runGame() {
         char winMark;
         Scanner scanner = new Scanner(System.in);
-        GameMap gameMap = new GameMap();
+        MapTicTacToe mapTicTacToe = new MapTicTacToe();
         System.out.println("Начало игры.");
         System.out.println("Введите размер поля:");
-        gameMap.setMapSize(scanner.nextInt());
+        mapTicTacToe.setMapSize(scanner.nextInt());
         System.out.println("Введите длинну линии для выигрыша");
         markForWin = scanner.nextInt();
-        gameMap.setCountLineForWin(markForWin);
+        mapTicTacToe.setCountLineForWin(markForWin);
 
         System.out.println("Выберите чем играть:");
         System.out.println(" 1. Х; \n 2. O.");
@@ -36,7 +36,7 @@ public class Game {
             computerMark = X_MARK;
         }
 
-        winMark = gameAlgorithm(gameMap);
+        winMark = gameAlgorithm(mapTicTacToe);
 
         if ('*' == winMark) {
             System.out.println("Ничья, попробуй ещё...");
@@ -50,7 +50,7 @@ public class Game {
         }
     }
 
-    private char gameAlgorithm(GameMap gameMap) {
+    private char gameAlgorithm(MapTicTacToe mapTicTacToe) {
         int[] coordinatStep = new int[2];
         char lastStep = O_MARK;
         Random random = new Random();
@@ -58,8 +58,8 @@ public class Game {
         if (random.nextInt(2) == 0) {
             System.out.println("Вы ходите первым");
             lastStep = computerMark;
-            for (int i = 0; i < gameMap.getMap().length; i++) {
-                System.out.println(Arrays.toString(gameMap.getMap()[i]));
+            for (int i = 0; i < mapTicTacToe.getMap().length; i++) {
+                System.out.println(Arrays.toString(mapTicTacToe.getMap()[i]));
             }
 
         }
@@ -68,13 +68,13 @@ public class Game {
             lastStep = humanMark;
         }
 
-        for (int i = 0; i < gameMap.getMap().length*gameMap.getMap().length; i++) {
+        for (int i = 0; i < mapTicTacToe.getMap().length* mapTicTacToe.getMap().length; i++) {
              if (lastStep == computerMark) {
                  for (;;){
                  coordinatStep = humanStep();
-                    if (gameMap.isValidCoordinates(coordinatStep[0], coordinatStep[1])
-                            && gameMap.isEmpty(coordinatStep[0], coordinatStep[1])) {
-                        gameMap.setMarkCoordinates(humanMark, coordinatStep[0], coordinatStep[1]);
+                    if (mapTicTacToe.isValidCoordinates(coordinatStep[0], coordinatStep[1])
+                            && mapTicTacToe.isEmpty(coordinatStep[0], coordinatStep[1])) {
+                        mapTicTacToe.setMarkCoordinates(humanMark, coordinatStep[0], coordinatStep[1]);
                         lastStep = humanMark;
                         break;
                     }
@@ -86,17 +86,17 @@ public class Game {
              else {
                  System.out.println("Ход компьютера");
 
-                 coordinatStep = computerStep(gameMap);
+                 coordinatStep = computerStep(mapTicTacToe);
 
-                 gameMap.setMarkCoordinates(computerMark, coordinatStep[0], coordinatStep[1]);
+                 mapTicTacToe.setMarkCoordinates(computerMark, coordinatStep[0], coordinatStep[1]);
                  lastStep = computerMark;
              }
 
-            for (int j = 0; j < gameMap.getSize(); j++) {
-                System.out.println(Arrays.toString(gameMap.getMap()[j]));
+            for (int j = 0; j < mapTicTacToe.getSize(); j++) {
+                System.out.println(Arrays.toString(mapTicTacToe.getMap()[j]));
             }
 
-            if (isWin(gameMap, coordinatStep[0], coordinatStep[1])) {
+            if (isWin(mapTicTacToe, coordinatStep[0], coordinatStep[1])) {
                 return lastStep;
             }
         }
@@ -117,25 +117,25 @@ public class Game {
         return coord;
     }
 
-    private int[] computerStep(GameMap gameMap) {
+    private int[] computerStep(MapTicTacToe mapTicTacToe) {
         int[] coord = new int[2];
 
-        coord = screathStep(gameMap, computerMark);
-        if (coord[0] == gameMap.getSize()) {
-            coord = screathStep(gameMap, humanMark);
+        coord = screathStep(mapTicTacToe, computerMark);
+        if (coord[0] == mapTicTacToe.getSize()) {
+            coord = screathStep(mapTicTacToe, humanMark);
         }
         else {
 
             return coord;
         }
 
-        if (coord[0] == gameMap.getSize()) {
+        if (coord[0] == mapTicTacToe.getSize()) {
             for (; ; ) {
                 Random random = new Random();
-                coord[0] = random.nextInt(gameMap.getCountLineForWin());
-                coord[1] = random.nextInt(gameMap.getCountLineForWin());
-                if (gameMap.isValidCoordinates(coord[0], coord[1])
-                        && gameMap.isEmpty(coord[0], coord[1])) {
+                coord[0] = random.nextInt(mapTicTacToe.getCountLineForWin());
+                coord[1] = random.nextInt(mapTicTacToe.getCountLineForWin());
+                if (mapTicTacToe.isValidCoordinates(coord[0], coord[1])
+                        && mapTicTacToe.isEmpty(coord[0], coord[1])) {
 
                     return coord;
                 }
@@ -147,10 +147,10 @@ public class Game {
         }
     }
 
-    private int[] screathStep(GameMap gameMap, char mark) {
+    private int[] screathStep(MapTicTacToe mapTicTacToe, char mark) {
         int[] coord = new int[2];
 
-        GameMap gMap = new GameMap(gameMap);
+        MapTicTacToe gMap = new MapTicTacToe(mapTicTacToe);
         for (int i = 0; i < gMap.getSize(); i++) {
             for (int j = 0; j < gMap.getSize(); j++) {
                 if (gMap.getEMPTY_MARK() == gMap.getMap()[i][j]) {
@@ -161,23 +161,23 @@ public class Game {
                         return coord;
                     }
                     else {
-                        gMap.setMap(gameMap.getMap());
+                        gMap.setMap(mapTicTacToe.getMap());
                     }
                 }
             }
         }
 
-        coord[0] = gameMap.getSize();
-        coord[1] = gameMap.getSize();
+        coord[0] = mapTicTacToe.getSize();
+        coord[1] = mapTicTacToe.getSize();
 
         return coord;
     }
 
 
-    private boolean isWin(GameMap gameMap, int x, int y) {
-        if ((isHorizontWin(gameMap.getMap(), x, y)) ||
-                (isVerticalWin(gameMap.getMap(), x, y)) ||
-                (isDiagonalWin(gameMap.getMap(), x, y))) {
+    private boolean isWin(MapTicTacToe mapTicTacToe, int x, int y) {
+        if ((isHorizontWin(mapTicTacToe.getMap(), x, y)) ||
+                (isVerticalWin(mapTicTacToe.getMap(), x, y)) ||
+                (isDiagonalWin(mapTicTacToe.getMap(), x, y))) {
             return true;
         }
         else {

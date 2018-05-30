@@ -1,18 +1,18 @@
 package logik.game;
 
-public class GameMap {
+public class MapTicTacToe {
     private char[][] map;
     private final char EMPTY_MARK = '*';
     private int countLineForWin;
     private int size;
 
-    public GameMap() {
+    public MapTicTacToe() {
     }
 
-    public GameMap(GameMap outGameMap) {
-        this.setCountLineForWin(outGameMap.countLineForWin);
-        this.setMapSize(outGameMap.size);
-        this.setMap(outGameMap.map);
+    public MapTicTacToe(MapTicTacToe outMapTicTacToe) {
+        this.setCountLineForWin(outMapTicTacToe.countLineForWin);
+        this.setMapSize(outMapTicTacToe.size);
+        this.setMap(outMapTicTacToe.map);
     }
 
     public void setSize(int size) {
