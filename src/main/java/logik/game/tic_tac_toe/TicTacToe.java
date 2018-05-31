@@ -1,4 +1,4 @@
-package logik.game;
+package logik.game.tic_tac_toe;
 
 import java.util.Arrays;
 import java.util.Random;

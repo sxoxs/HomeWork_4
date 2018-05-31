@@ -1,7 +1,9 @@
 package logik;
 
-import logik.game.TicTacToe;
+import logik.game.snake.SnakeGame;
+import logik.game.tic_tac_toe.TicTacToe;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
@@ -18,5 +20,9 @@ public class Menu {
             }
         }
         System.out.println("Спасибо за игру!");
+    }
+    public void showSnake() throws IOException {
+        SnakeGame snakeGame = new SnakeGame();
+        snakeGame.RunGame();
     }
 }
