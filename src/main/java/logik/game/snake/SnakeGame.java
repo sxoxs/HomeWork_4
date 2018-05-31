@@ -2,6 +2,8 @@ package logik.game.snake;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
 
 public class SnakeGame {
     public void RunGame() throws IOException {
@@ -12,23 +14,88 @@ public class SnakeGame {
     }
 
     private void snakeAlgorithm(Snake snake, SnakeMap snakeMap) throws IOException {
-        int i = 0;
+        int[] eatCoordinate = new int[2];
+        boolean exitCondition = false;
+
         for (;;) {
             paintSteepGame(snake, snakeMap);
-            i++;
-            if ( i == 10) {
+            eatCoordinate = generationEatCoordinate(snake, snakeMap);
+            snakeMap.setEatCoordinate(eatCoordinate);
+            paintSteepGame(snake, snakeMap);
+            for (;;) {//идти пока не скушать или не врезаться
+                step(snake, snakeMap);
+                if (snake.itsEat(eatCoordinate)){
+                    break;
+                }
+                if (snakeMap.isCrashedWall(snake.getHeadCoordinate()) || snake.isCrashedIntoSelf()) {
+                    exitCondition = true;
+                    break;
+                }
+                paintSteepGame(snake, snakeMap);
+            }
+            if (exitCondition) {
+                paintSteepGame(snake, snakeMap);
+                System.out.println("Вы проиграли(");
                 break;
             }
         }
     }
+
+    private void step(Snake snake, SnakeMap snakeMap) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Выберите куда пойти: ");
+        switch (scanner.nextLine().toLowerCase().charAt(0)) {
+            case 'd': {
+                snake.stepRight();
+                break;
+            }
+            case 'a': {
+                snake.stepLeft();
+                break;
+            }
+            case 'w': {
+                snake.stepTop();
+                break;
+            }
+            case 's': {
+                snake.stepBottom();
+                break;
+            }
+        }
+    }
+
+    private int[] generationEatCoordinate(Snake snake, SnakeMap snakeMap) {
+        int[] coord = new int[2];
+        Random random = new Random();
+        for (;;) {
+            coord[0] = random.nextInt(snakeMap.getSIZE_MAP() - 1) + 1;
+            coord[1] = random.nextInt(snakeMap.getSIZE_MAP() - 1) + 1;
+            if (isValidCoordinate(snake, coord)) {
+                return coord;
+            }
+        }
+    }
+
+    private boolean isValidCoordinate(Snake snake, int[] coord) {
+        for (int j = 0; j < snake.getCountBody(); j++) {
+            if (coord == snake.getCoordinateList().get(j)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
     private void paintSteepGame(Snake snake, SnakeMap snakeMap) throws IOException {
 
         StringBuffer stringBuffer = new StringBuffer();
         System.out.println("\\u001b[2J");
         stringBuffer.append("Score: ");
-        stringBuffer.append(snake.getCountBody());
+        stringBuffer.append(snake.getCountBody() -1 );
         stringBuffer.append("\n");
+
+        snakeMap.addSnakeOnMap(snake);
 
         for (char[] array : snakeMap.getMap()) {
             stringBuffer.append(Arrays.toString(array));
