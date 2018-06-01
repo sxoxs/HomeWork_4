@@ -27,11 +27,12 @@ public class Menu {
                     break;
                 }
                 default:{
-                    System.out.println("Повторите выбор, вы что то не то нажали");
+                    System.out.println("Вы что то не то нажали");
+                    break;
                 }
             }
 
-            System.out.println("Сыграть ещё?");
+            System.out.println("Попробовать ещё?");
             System.out.println(" 1. да \n 2. нет");
             if (1 != scanner.nextInt()) {
                 break;
