@@ -30,17 +30,11 @@ public class SnakeMap {
         return map;
     }
 
-    public void setMap(char[][] map) {
-        this.map = map;
-    }
 
     public int getSIZE_MAP() {
         return SIZE_MAP;
     }
 
-    public int getFULL_SIZE() {
-        return FULL_SIZE;
-    }
 
     public void clearMap() {
         for (int i = 0; i < FULL_SIZE; i++) {

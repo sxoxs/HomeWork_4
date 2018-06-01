@@ -15,9 +15,6 @@ public class MapTicTacToe {
         this.setMap(outMapTicTacToe.map);
     }
 
-    public void setSize(int size) {
-        this.size = size;
-    }
 
     public int getCountLineForWin() {
         return countLineForWin;

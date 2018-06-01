@@ -166,7 +166,6 @@ public class TicTacToe {
                 }
             }
         }
-
         coord[0] = mapTicTacToe.getSize();
         coord[1] = mapTicTacToe.getSize();
 

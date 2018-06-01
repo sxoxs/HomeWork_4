@@ -1,6 +1,5 @@
 package logik.game.snake;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
@@ -22,7 +21,7 @@ public class SnakeGame {
             snakeMap.setEatCoordinate(eatCoordinate);
             paintSteepGame(snake, snakeMap);
             for (;;) {//идти пока не скушать или не врезаться
-                step(snake, snakeMap);
+                step(snake);
                 if (snake.itsEat(eatCoordinate)){
                     break;
                 }
@@ -40,7 +39,7 @@ public class SnakeGame {
         }
     }
 
-    private void step(Snake snake, SnakeMap snakeMap) {
+    private void step(Snake snake) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Выберите куда пойти: ");
         switch (scanner.nextLine().toLowerCase().charAt(0)) {
@@ -87,10 +86,6 @@ public class SnakeGame {
 
 
     private void paintSteepGame(Snake snake, SnakeMap snakeMap) {
-
-
-
-
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Score: ");
         stringBuffer.append(snake.getCountBody() -1 );
