@@ -6,19 +6,18 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class SnakeGame {
-    public void RunGame() throws IOException {
+    public void RunGame()  {
         System.out.println("Добро пожаловать в змейку!");
         SnakeMap snakeMap = new SnakeMap();
         Snake snake = new Snake();
         snakeAlgorithm(snake, snakeMap);
     }
 
-    private void snakeAlgorithm(Snake snake, SnakeMap snakeMap) throws IOException {
+    private void snakeAlgorithm(Snake snake, SnakeMap snakeMap) {
         int[] eatCoordinate = new int[2];
         boolean exitCondition = false;
 
         for (;;) {
-            paintSteepGame(snake, snakeMap);
             eatCoordinate = generationEatCoordinate(snake, snakeMap);
             snakeMap.setEatCoordinate(eatCoordinate);
             paintSteepGame(snake, snakeMap);
@@ -78,7 +77,7 @@ public class SnakeGame {
 
     private boolean isValidCoordinate(Snake snake, int[] coord) {
         for (int j = 0; j < snake.getCountBody(); j++) {
-            if (coord == snake.getCoordinateList().get(j)) {
+            if (Arrays.equals(coord, snake.getCoordinateList().get(j))) {
                 return false;
             }
         }
@@ -87,10 +86,12 @@ public class SnakeGame {
     }
 
 
-    private void paintSteepGame(Snake snake, SnakeMap snakeMap) throws IOException {
+    private void paintSteepGame(Snake snake, SnakeMap snakeMap) {
+
+
+
 
         StringBuffer stringBuffer = new StringBuffer();
-        System.out.println("\\u001b[2J");
         stringBuffer.append("Score: ");
         stringBuffer.append(snake.getCountBody() -1 );
         stringBuffer.append("\n");

@@ -68,8 +68,6 @@ public class SnakeMap {
         else {
             return false;
         }
-
-
     }
 
     public void addSnakeOnMap(Snake snake) {
